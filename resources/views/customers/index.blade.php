@@ -32,8 +32,9 @@
           @forelse($data as $row)
             <tr>
 
-              <td class="pl-4">{{ $row->customer_code }}</td>
-
+<td class="pl-4">
+    {{ substr($row->customer_code,0,1).'-'.substr($row->customer_code,1,4).'-'.substr($row->customer_code,5,4).'-'.substr($row->customer_code,9,2).'-'.substr($row->customer_code,11,1) }}
+</td>
               <td>{{ $row->name }}</td>
 
               <td>{{ $row->phone }}</td>
