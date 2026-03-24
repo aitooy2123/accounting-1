@@ -9,8 +9,16 @@ class CustomerSeeder extends Seeder
 {
     public function run()
     {
-        $firstNames = ['สมชาย', 'สมหญิง', 'วิชัย', 'อรทัย', 'กิตติ', 'สุภาพร', 'ประยุทธ์', 'นฤมล', 'ธนพล', 'จิราพร'];
-        $lastNames = ['ใจดี', 'ทองสุข', 'มีชัย', 'แซ่ลี้', 'บุญมา', 'ศรีสุข', 'พรมมา', 'วงศ์ดี', 'คำแก้ว', 'อินทร์แปลง'];
+        $firstNames = ['สมชาย', 'สมหญิง', 'วิชัย', 'อรทัย', 'กิตติ', 'สุภาพร', 'ธนพล', 'จิราพร'];
+        $lastNames = ['ใจดี', 'ทองสุข', 'มีชัย', 'บุญมา', 'ศรีสุข', 'พรมมา', 'วงศ์ดี', 'คำแก้ว'];
+
+        $companyNames = [
+            'บริษัท สมมุติ จำกัด',
+            'บริษัท ตัวอย่าง จำกัด',
+            'บริษัท ไทยเจริญ จำกัด',
+            'บริษัท รุ่งเรือง จำกัด',
+            'บริษัท ฟ้าสดใส จำกัด'
+        ];
 
         $addresses = [
             '123 หมู่ 1 ต.บ้านเลื่อม อ.เมือง จ.อุดรธานี',
@@ -21,19 +29,30 @@ class CustomerSeeder extends Seeder
             '55/1 หมู่ 2 ต.กุดสระ อ.เมือง จ.อุดรธานี',
         ];
 
-        for ($i = 1; $i <= 100; $i++) {
+        foreach (range(1, 100) as $i) {
 
-            $firstName = $firstNames[array_rand($firstNames)];
-            $lastName = $lastNames[array_rand($lastNames)];
+            $isCompany = rand(0, 1); // 0 = บุคคล, 1 = บริษัท
+
+            if ($isCompany) {
+                $name = $companyNames[array_rand($companyNames)];
+            } else {
+                $name = $firstNames[array_rand($firstNames)] . ' ' . $lastNames[array_rand($lastNames)];
+            }
+
             $address = $addresses[array_rand($addresses)];
 
-            Customer::create([
-                'customer_code' => str_pad($i, 13, '0', STR_PAD_LEFT),
-                'name' => $firstName . ' ' . $lastName,
-                'phone' => '08' . rand(10000000, 99999999),
-                'email' => 'customer' . $i . '@example.com',
-                'address' => $address
-            ]);
+            // สร้างเลขผู้เสียภาษี 13 หลักแบบสุ่ม
+            $taxId = str_pad(rand(1, 9999999999999), 13, '0', STR_PAD_LEFT);
+
+            Customer::updateOrCreate(
+                ['customer_code' => $taxId],
+                [
+                    'name' => $name,
+                    'phone' => '08' . rand(10000000, 99999999),
+                    'email' => 'customer' . $i . '@example.com',
+                    'address' => $address
+                ]
+            );
         }
     }
 }

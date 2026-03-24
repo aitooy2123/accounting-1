@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Account;
-use Illuminate\Support\Facades\DB;
 
 class AccountSeeder extends Seeder
 {
@@ -13,7 +12,6 @@ class AccountSeeder extends Seeder
      *
      * @return void
      */
-
     public function run()
     {
         $accounts = [
@@ -45,7 +43,11 @@ class AccountSeeder extends Seeder
         ];
 
         foreach ($accounts as $row) {
-            Account::updateOrCreate(['code' => $row['code']], $row);
+            // ใช้ updateOrCreate เพื่อหลีกเลี่ยง duplicate
+            Account::updateOrCreate(
+                ['code' => $row['code']], // เงื่อนไขค้นหา
+                $row                       // ข้อมูลที่จะ insert/update
+            );
         }
     }
 }
