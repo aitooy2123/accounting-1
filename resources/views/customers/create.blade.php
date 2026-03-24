@@ -19,7 +19,7 @@
         @csrf
 
         <div class="mb-3">
-          <label>รหัสลูกค้า</label>
+          <label>เลขที่ผู้เสียภาษี</label>
 
           <input type="text" name="customer_code" class="form-control @error('customer_code') is-invalid @enderror" placeholder="เช่น CUS001" value="{{ old('customer_code') }}">
 

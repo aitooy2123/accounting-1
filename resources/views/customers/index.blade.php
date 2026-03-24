@@ -19,7 +19,7 @@
       <table class="table table-bordered table-modern align-middle mb-0 table-hover">
         <thead style="background:#f8fafc;">
           <tr>
-            <th class="pl-4">รหัส</th>
+            <th class="pl-4">เลขที่ผู้เสียภาษี</th>
             <th>ชื่อลูกค้า</th>
             <th>โทรศัพท์</th>
             <th>Email</th>
