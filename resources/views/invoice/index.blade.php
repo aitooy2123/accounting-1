@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('title', 'ใบแจ้งหนี้')
+<?php
+use Carbon\Carbon;
+?>
 
 @section('content')
   <!-- Bootstrap 4 CSS -->
