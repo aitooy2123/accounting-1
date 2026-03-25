@@ -182,11 +182,17 @@
     <h4 class="fw-bold mt-4">🧾 ประวัติการชำระเงิน</h4>
 
     <div class="glass-card p-4 mt-4">
-
+@php
+  $totalPaid = $invoice->payments->sum('amount');
+  $isPaidFull = $totalPaid >= ($invoice->total ?? 0);
+@endphp
       <!-- ปุ่มเรียก Modal -->
-      <button class="btn btn-success my-3" data-toggle="modal" data-target="#paymentModal">
-        เพิ่มประวัติการชำระเงิน
-      </button>
+<button class="btn btn-success my-3"
+        data-toggle="modal"
+        data-target="#paymentModal"
+        @if($isPaidFull) disabled @endif>
+  เพิ่มประวัติการชำระเงิน
+</button>
 
       <table class="table table-bordered mb-0">
 

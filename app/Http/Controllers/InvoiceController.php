@@ -177,35 +177,50 @@ class InvoiceController extends Controller
         return back()->with('success', 'ลบข้อมูลสำเร็จ');
     }
 
-    public function storePayment(Request $request, Invoice $invoice)
-    {
-        $request->validate([
-            'payment_date' => 'required|date',
-            'amount' => 'required|numeric|min:0.01',
-            'note' => 'nullable|string',
-        ]);
+public function storePayment(Request $request, Invoice $invoice)
+{
+    // ❗ เช็คก่อนว่าชำระครบแล้วหรือยัง
+    $totalPaid = $invoice->payments()->sum('amount');
 
-        $invoice->payments()->create([
-            'payment_date' => $request->payment_date,
-            'amount' => $request->amount,
-            'note' => $request->note,
-        ]);
-
-        // อัปเดตยอดชำระและ balance
-        $invoice->paid = $invoice->payments()->sum('amount');
-        $invoice->balance = $invoice->total - $invoice->paid;
-
-        // อัปเดต status อัตโนมัติ
-        if ($invoice->balance <= 0) {
-            $invoice->status = 1; // ชำระครบ
-        } elseif ($invoice->due_date < now()) {
-            $invoice->status = 2; // เกินกำหนด
-        } else {
-            $invoice->status = 0; // ค้างชำระ
-        }
-
-        $invoice->save();
-
-        return redirect()->back()->with('success', 'เพิ่มประวัติการชำระเงินเรียบร้อยแล้ว');
+    if ($totalPaid >= $invoice->total) {
+        return back()->with('error', 'ใบแจ้งหนี้นี้ชำระครบแล้ว');
     }
+
+    // validate
+    $request->validate([
+        'payment_date' => 'required|date',
+        'amount' => 'required|numeric|min:0.01',
+        'note' => 'nullable|string',
+    ]);
+
+    // ❗ กันจ่ายเกิน (แนะนำเพิ่ม)
+    $remaining = $invoice->total - $totalPaid;
+    if ($request->amount > $remaining) {
+        return back()->with('error', 'จำนวนเงินเกินยอดคงเหลือ');
+    }
+
+    // create payment
+    $invoice->payments()->create([
+        'payment_date' => $request->payment_date,
+        'amount' => $request->amount,
+        'note' => $request->note,
+    ]);
+
+    // คำนวณใหม่
+    $invoice->paid = $invoice->payments()->sum('amount');
+    $invoice->balance = $invoice->total - $invoice->paid;
+
+    // update status
+    if ($invoice->balance <= 0) {
+        $invoice->status = 1; // ชำระครบ
+    } elseif ($invoice->due_date < now()) {
+        $invoice->status = 2; // เกินกำหนด
+    } else {
+        $invoice->status = 0; // ค้างชำระ
+    }
+
+    $invoice->save();
+
+    return back()->with('success', 'เพิ่มประวัติการชำระเงินเรียบร้อยแล้ว');
+}
 }
