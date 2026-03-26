@@ -14,15 +14,17 @@ class CreateCustomersTable extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id();
-            $table->string('customer_code')->unique();
-            $table->string('name');
-            $table->string('tax_number')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('email')->nullable();
-            $table->text('address')->nullable();
-            $table->timestamps();
-        });
+    $table->id();
+    $table->string('customer_code')->unique();
+    $table->string('name');
+    $table->string('company_name')->nullable();
+    $table->string('tax_number')->nullable();
+    $table->string('phone')->nullable();
+    $table->string('email')->nullable();
+    $table->text('address')->nullable();
+    $table->timestamps();
+});
+       
     }
 
     /**

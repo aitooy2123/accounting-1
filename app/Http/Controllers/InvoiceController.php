@@ -177,50 +177,53 @@ class InvoiceController extends Controller
         return back()->with('success', 'ลบข้อมูลสำเร็จ');
     }
 
+// app/Http/Controllers/InvoiceController.php
+
 public function storePayment(Request $request, Invoice $invoice)
 {
-    // ❗ เช็คก่อนว่าชำระครบแล้วหรือยัง
+    // รวมยอดจ่ายปัจจุบัน
     $totalPaid = $invoice->payments()->sum('amount');
 
-    if ($totalPaid >= $invoice->total) {
-        return back()->with('error', 'ใบแจ้งหนี้นี้ชำระครบแล้ว');
+    // กันจ่ายเกิน
+    $remaining = $invoice->total - $totalPaid;
+    if ($request->amount > $remaining) {
+        return back()->with('error', 'จำนวนเงินเกินยอดคงเหลือ');
     }
 
-    // validate
+    // Validate
     $request->validate([
         'payment_date' => 'required|date',
         'amount' => 'required|numeric|min:0.01',
         'note' => 'nullable|string',
     ]);
 
-    // ❗ กันจ่ายเกิน (แนะนำเพิ่ม)
-    $remaining = $invoice->total - $totalPaid;
-    if ($request->amount > $remaining) {
-        return back()->with('error', 'จำนวนเงินเกินยอดคงเหลือ');
-    }
-
-    // create payment
+    // สร้าง payment
     $invoice->payments()->create([
         'payment_date' => $request->payment_date,
         'amount' => $request->amount,
         'note' => $request->note,
     ]);
 
-    // คำนวณใหม่
+    // อัปเดตยอด invoice
     $invoice->paid = $invoice->payments()->sum('amount');
     $invoice->balance = $invoice->total - $invoice->paid;
-
-    // update status
-    if ($invoice->balance <= 0) {
-        $invoice->status = 1; // ชำระครบ
-    } elseif ($invoice->due_date < now()) {
-        $invoice->status = 2; // เกินกำหนด
-    } else {
-        $invoice->status = 0; // ค้างชำระ
-    }
-
+    $invoice->status = $invoice->balance <= 0 ? 1 : ($invoice->due_date < now() ? 2 : 0);
     $invoice->save();
 
     return back()->with('success', 'เพิ่มประวัติการชำระเงินเรียบร้อยแล้ว');
+}
+
+public function deletePayment(Payment $payment)
+{
+    $invoice = $payment->invoice;
+    $payment->delete();
+
+    // อัปเดตยอด invoice
+    $invoice->paid = $invoice->payments()->sum('amount');
+    $invoice->balance = $invoice->total - $invoice->paid;
+    $invoice->status = $invoice->balance <= 0 ? 1 : ($invoice->due_date < now() ? 2 : 0);
+    $invoice->save();
+
+    return back()->with('success', 'ลบประวัติการชำระเงินเรียบร้อยแล้ว');
 }
 }

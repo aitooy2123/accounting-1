@@ -24,6 +24,7 @@ class CustomerController extends Controller
         $request->validate([
             'customer_code' => 'nullable|max:20',
             'name' => 'required|max:255',
+            'company_name' => 'nullable|max:255',
             'phone' => 'nullable|max:20',
             'email' => 'nullable|email|max:100',
             'address' => 'nullable'
@@ -32,6 +33,7 @@ class CustomerController extends Controller
         Customer::create([
             'customer_code' => $request->customer_code,
             'name' => $request->name,
+            'company_name' => $request->company_name,
             'phone' => $request->phone,
             'email' => $request->email,
             'address' => $request->address
@@ -52,6 +54,7 @@ class CustomerController extends Controller
         $request->validate([
             'customer_code' => 'nullable|max:20',
             'name' => 'required|max:255',
+            'company_name' => 'nullable|max:255',
             'phone' => 'nullable|max:20',
             'email' => 'nullable|email|max:100',
             'address' => 'nullable'
@@ -62,6 +65,7 @@ class CustomerController extends Controller
         $row->update([
             'customer_code' => $request->customer_code,
             'name' => $request->name,
+            'company_name' => $request->company_name,
             'phone' => $request->phone,
             'email' => $request->email,
             'address' => $request->address

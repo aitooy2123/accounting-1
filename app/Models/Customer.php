@@ -9,11 +9,13 @@ class Customer extends Model
 {
     protected $table = 'customers';
 
-    protected $fillable = [
-        'customer_code',
-        'name',
-        'phone',
-        'email',
-        'address'
-    ];
+  protected $fillable = [
+    'customer_code',
+    'name',
+    'company_name',
+    'tax_number',
+    'phone',
+    'email',
+    'address'
+];
 }

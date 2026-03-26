@@ -27,6 +27,10 @@
         <label class="fw-bold">ชื่อลูกค้า</label>
         <input type="text" name="name" class="form-control" required>
       </div>
+      <div class="mb-3">
+        <label class="fw-bold">บริษัท</label>
+        <input type="text" name="company_name" class="form-control">
+      </div>
 
       <div class="mb-3">
         <label class="fw-bold">โทรศัพท์</label>

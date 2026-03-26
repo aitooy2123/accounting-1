@@ -73,24 +73,24 @@
 
         <div class="row">
 
-          <div class="col-md-6 mb-3">
+       <div class="col-md-6 mb-3">
+    <label>สถานะ</label>
+    <select id="status" name="status" class="form-control"
+        @if($invoice->balance <= 0) disabled @endif>
+        <option value="0" {{ old('status', $invoice->status) == 0 ? 'selected' : '' }}>
+            ยังไม่ชำระ
+        </option>
+        <option value="1" {{ old('status', $invoice->status) == 1 ? 'selected' : '' }}>
+            ชำระแล้ว
+        </option>
+    </select>
 
-            <label>สถานะ</label>
-
-            <select id="status" name="status" class="form-control">
-
-              <option value="0" {{ old('status', $invoice->status) == 0 ? 'selected' : '' }}>
-                ยังไม่ชำระ
-              </option>
-
-              <option value="1" {{ old('status', $invoice->status) == 1 ? 'selected' : '' }}>
-                ชำระแล้ว
-              </option>
-
-            </select>
-
-          </div>
-
+      @if($invoice->balance <= 0)
+        <div class="text-success mt-2 fw-bold">
+            ใบแจ้งหนี้นี้ชำระครบแล้ว ✅
+        </div>
+      @endif
+</div>
           <div class="col-md-6 mb-3" id="paid_box">
 
             <label>ชำระแล้ว</label>
@@ -236,6 +236,7 @@
             </tr>
           </tfoot>
         @endif
+
 
       </table>
     </div>
@@ -460,4 +461,6 @@
       }
     });
   </script>
+
+
 @endsection

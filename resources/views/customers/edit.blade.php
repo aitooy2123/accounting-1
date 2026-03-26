@@ -32,6 +32,12 @@
         </div>
 
         <div class="mb-3">
+          <label>บริษัท</label>
+
+          <input type="text" name="company_name" class="form-control" value="{{ $row->company_name }}">
+        </div>
+
+        <div class="mb-3">
           <label>โทรศัพท์</label>
 
           <input type="text" name="phone" class="form-control" value="{{ $row->phone }}">
