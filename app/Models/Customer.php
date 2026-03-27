@@ -16,6 +16,6 @@ class Customer extends Model
     'tax_number',
     'phone',
     'email',
-    'address'
+    'address',
 ];
 }

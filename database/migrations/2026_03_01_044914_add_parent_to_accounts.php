@@ -13,9 +13,11 @@ class AddParentToAccounts extends Migration
      */
     public function up()
     {
-        Schema::table('accounts', function (Blueprint $table) {
-            $table->foreignId('parent_id')->nullable()->constrained('accounts')->onDelete('cascade');
-        });
+       Schema::table('accounts', function (Blueprint $table) {
+    if (!Schema::hasColumn('accounts', 'parent_id')) {
+        $table->unsignedBigInteger('parent_id')->nullable();
+    }
+});
     }
     /**
      * Reverse the migrations.

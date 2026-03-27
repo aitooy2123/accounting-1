@@ -11,13 +11,10 @@ class DatabaseSeeder extends Seeder
         // สร้างผู้ใช้ 100 คน
         \App\Models\User::factory(100)->create();
 
-        // เรียก CustomerSeeder (ถ้ามี)
+        // เรียก CustomerSeeder
         $this->call(\Database\Seeders\CustomerSeeder::class);
 
         // เรียก AccountSeeder
         $this->call(\Database\Seeders\AccountSeeder::class);
-
-        // เรียก InvoiceSeeder หรือ Seeder อื่น ๆ ตามต้องการ
-        // $this->call(\Database\Seeders\InvoiceSeeder::class);
     }
 }

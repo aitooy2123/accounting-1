@@ -75,15 +75,15 @@
 
        <div class="col-md-6 mb-3">
     <label>สถานะ</label>
-    <select id="status" name="status" class="form-control"
-        @if($invoice->balance <= 0) disabled @endif>
-        <option value="0" {{ old('status', $invoice->status) == 0 ? 'selected' : '' }}>
-            ยังไม่ชำระ
-        </option>
-        <option value="1" {{ old('status', $invoice->status) == 1 ? 'selected' : '' }}>
-            ชำระแล้ว
-        </option>
-    </select>
+ <select id="status" name="status" class="form-control"
+    @if($invoice->balance <= 0) disabled @endif>
+    <option value="0" {{ old('status', $invoice->status) == 0 && $invoice->balance > 0 ? 'selected' : '' }}>
+        ยังไม่ชำระ
+    </option>
+    <option value="1" {{ old('status', $invoice->status) == 1 || $invoice->balance <= 0 ? 'selected' : '' }}>
+        ชำระแล้ว
+    </option>
+</select>
 
       @if($invoice->balance <= 0)
         <div class="text-success mt-2 fw-bold">

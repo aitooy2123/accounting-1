@@ -13,15 +13,19 @@ class CreateInvoicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoices', function ($table) {
-            $table->id();
-            $table->string('invoice_no');
-            $table->string('customer_name');
-            $table->decimal('total', 15, 2);
-            $table->decimal('paid', 15, 2)->default(0);
-            $table->date('due_date');
-            $table->timestamps();
+      Schema::create('invoices', function (Blueprint $table) {
+            $table->id(); // id bigint(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY
+            $table->string('invoice_no'); // varchar(255)
+            $table->string('customer_id'); // varchar(255)
+            $table->decimal('total', 15, 2); // decimal(15,2)
+            $table->decimal('paid', 15, 2)->default(0); // decimal(15,2) default 0
+            $table->tinyInteger('status'); // int(2)
+            $table->text('balance')->nullable(); // text
+            $table->text('items')->nullable(); // text nullable
+            $table->date('due_date'); // date
+            $table->timestamps(); // created_at, updated_at
         });
+
     }
 
     /**
