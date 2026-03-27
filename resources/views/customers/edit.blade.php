@@ -20,7 +20,7 @@
         @method('PUT')
 
         <div class="mb-3">
-          <label>รหัสลูกค้า</label>
+          <label>เลขบัตรประชาชน/เลขที่ผู้เสียภาษี</label>
 
           <input type="text" name="customer_code" class="form-control" value="{{ $row->customer_code }}">
         </div>

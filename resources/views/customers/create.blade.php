@@ -19,7 +19,7 @@
       @csrf
 
       <div class="mb-3">
-        <label class="fw-bold">รหัสลูกค้า</label>
+        <label class="fw-bold">เลขบัตรประชาชน/เลขที่ผู้เสียภาษี</label>
         <input type="text" name="customer_code" class="form-control">
       </div>
 
