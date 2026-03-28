@@ -12,8 +12,9 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(100)->create();
 
         // เรียก CustomerSeeder
-        $this->call(\Database\Seeders\CustomerSeeder::class);
-
+ $this->call([
+        CustomerSeeder::class,
+    ]);
         // เรียก AccountSeeder
         $this->call(\Database\Seeders\AccountSeeder::class);
     }

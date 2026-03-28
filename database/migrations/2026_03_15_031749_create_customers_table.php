@@ -13,18 +13,18 @@ class CreateCustomersTable extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
-    $table->id();
+       Schema::create('customers', function (Blueprint $table) {
+    $table->id(); // ต้องมี auto increment
     $table->string('customer_code')->unique();
     $table->string('name');
-    $table->string('company_name')->nullable();
-    $table->string('tax_number')->nullable();
-    $table->string('phone')->nullable();
-    $table->string('email')->nullable();
-    $table->text('address')->nullable();
+    $table->string('company_name');
+    $table->string('tax_number');
+    $table->string('phone');
+    $table->string('email');
+    $table->string('address');
     $table->timestamps();
 });
-       
+
     }
 
     /**

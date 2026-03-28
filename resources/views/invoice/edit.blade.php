@@ -95,8 +95,13 @@
 
             <label>ชำระแล้ว</label>
 
-            <input type="text" name="paid" class="form-control" value="{{ old('paid', number_format($invoice->paid, 2)) }}">
-
+<input
+  type="text"
+  name="paid"
+  class="form-control"
+  value="{{ old('paid', number_format($invoice->paid, 2)) }}"
+  {{ $invoice->paid >= $invoice->total ? 'disabled' : '' }}
+>
           </div>
 
         </div>
