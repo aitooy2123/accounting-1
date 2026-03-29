@@ -10,7 +10,8 @@ use App\Models\Quotation;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\QuotationExport;
-
+use Illuminate\Validation\Rules\In;
+use App\Models\Payment;
 
 class InvoiceController extends Controller
 {
@@ -234,10 +235,11 @@ class InvoiceController extends Controller
 
     public function pdf($id)
     {
-        $quotation = Quotation::findOrFail($id);
+        $invoice = Quotation::with('customer')->findOrFail($id);
 
-        $pdf = Pdf::loadView('quotation.pdf', compact('quotation'));
-        return $pdf->download('quotation.pdf');
+        $pdf = Pdf::loadView('invoice.pdf.index', compact('invoice'));
+
+        return $pdf->download('invoice_' . $invoice->invoice_no . '.pdf');
     }
 
     public function excel($id)

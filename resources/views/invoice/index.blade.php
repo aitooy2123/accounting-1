@@ -76,11 +76,6 @@ use Carbon\Carbon;
   </div>
   <div class="card-glass p-0">
 
-    @foreach ($data ?? [] as $row)
-      <a href="{{ route('quotation.pdf', $row->id) }}" class="btn btn-sm btn-danger">
-        PDF
-      </a>
-    @endforeach
 
     {{-- <a href="{{ route('quotation.excel', $quotation->id) }}" class="btn btn-success">Excel</a> --}}
 
@@ -142,8 +137,8 @@ use Carbon\Carbon;
               <td class="text-center text-nowrap">
 
                 <!-- ใบเสนอราคา -->
-                <a href="{{ route('quotation.pdf', $row->id) }}" class="btn btn-sm btn-success mr-1" data-toggle="tooltip" title="ใบเสนอราคา">
-                  <i class="fas fa-file-invoice"></i> <!-- FA Free icon -->
+                <a href="{{ route('invoice.pdf', $row->id) }}" class="btn btn-sm btn-danger mr-1" data-toggle="tooltip" title="PDF ใบแจ้งหนี้">
+                  <i class="fas fa-file-pdf"></i>
                 </a>
 
                 <!-- แก้ไข -->

@@ -60,6 +60,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Route::resource('quotation', QuotationController::class);
 
-    Route::get('quotation/{id}/pdf', [InvoiceController::class, 'pdf'])->name('quotation.pdf');
-    Route::get('quotation/{id}/excel', [InvoiceController::class, 'excel'])->name('quotation.excel');
+    Route::get('quotation/{id}/pdf', [InvoiceController::class, 'pdf'])->name('invoice.pdf');
+    // Route::get('quotation/{id}/excel', [InvoiceController::class, 'excel'])->name('quotation.excel');
 });
