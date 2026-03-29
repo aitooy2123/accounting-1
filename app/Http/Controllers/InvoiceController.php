@@ -235,7 +235,7 @@ class InvoiceController extends Controller
 
     public function pdf($id)
     {
-        $invoice = Quotation::with('customer')->findOrFail($id);
+        $invoice = Invoice::with('customer')->findOrFail($id);
 
         $pdf = Pdf::loadView('invoice.pdf.index', compact('invoice'));
 

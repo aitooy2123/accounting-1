@@ -168,10 +168,15 @@
         </div>
 
 
-        <button class="btn btn-primary mt-3">
-          อัปเดตข้อมูล
-        </button>
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn btn-info mt-3" onclick="window.open('{{ route('invoice.pdf', $invoice->id) }}', '_blank')">
+            ดาวน์โหลด PDF
+          </button>
 
+          <button class="btn btn-primary mt-3 ml-2" type="submit">
+            อัปเดตข้อมูล
+          </button>
+        </div>
       </form>
 
     </div>
